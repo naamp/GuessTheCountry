@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Startpage.css';
 import { useNavigate } from "react-router-dom";
 import logo from './logo/GuessTheCountry.png';
@@ -8,6 +8,10 @@ import countriesGeoJSON from './geodata/custom.geo';
 const Startpage = ({ selectedContinent, setSelectedContinent, numberOfCountries, setNumberOfCountries, setCountryList }) => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    console.log("GeoJSON Data:", countriesGeoJSON); // Log the entire GeoJSON data
+  }, []);
 
   const dropdownOptions = [
     { value: 'World', label: 'World' },
@@ -20,9 +24,22 @@ const Startpage = ({ selectedContinent, setSelectedContinent, numberOfCountries,
   ];
 
   function filterGeoJsonByContinent(geoJson, selectedContinent) {
-    const filteredCountries = geoJson.features.filter(feat => 
-      feat.properties.continent === selectedContinent || selectedContinent === 'World'
-    ).map(feat => feat.properties.name);
+    let filteredCountries;
+    if (selectedContinent === 'World') {
+      // Wenn "World" ausgewählt ist, wähle alle Länder aus
+      filteredCountries = geoJson.features.map(feat => feat.properties.name);
+      console.log("Filtered Countries (World):", filteredCountries);
+    } else {
+      // Filtere die Länder nach dem ausgewählten Kontinent
+      filteredCountries = geoJson.features.filter(feat =>
+        feat.properties.continent === selectedContinent
+      ).map(feat => feat.properties.name);
+      console.log("Filtered Countries (Continent):", filteredCountries);
+    }
+
+    if (filteredCountries.length === 0) {
+      console.error("No countries found for the selected continent or world");
+    }
 
     // Shuffle array and pick the first `numberOfCountries` elements
     const shuffledCountries = filteredCountries.sort(() => 0.5 - Math.random());
