@@ -6,12 +6,21 @@ import Mappage from './Mappage';
 
 function App() {
   const [selectedGameOption, setSelectedGameOption] = useState('');
+  const [numberOfCountries, setNumberOfCountries] = useState(10);
 
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Startpage selectedGameOption={selectedGameOption} setSelectedGameOption={setSelectedGameOption} />} />
-        <Route path="/mappage" element={<Mappage selectedGameOption={selectedGameOption} />} />
+        <Route path="/" element={<Startpage
+          selectedGameOption={selectedGameOption}
+          setSelectedGameOption={setSelectedGameOption}
+          numberOfCountries={numberOfCountries}
+          setNumberOfCountries={setNumberOfCountries}
+         />} />
+        <Route path="/mappage" element={<Mappage
+          selectedGameOption={selectedGameOption}
+          numberOfCountries={numberOfCountries}
+        />} />
       </Routes>
     </Router>
   );
