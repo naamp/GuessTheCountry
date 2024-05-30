@@ -1,14 +1,71 @@
-.App {
-  height: 100vh;
-  width: 100vw;
+html, body {
+  height: 100%;
   margin: 0;
-  padding: 0;
+  padding: 0;
+}
+
+.App {
+height: 100vh;
+width: 100vw;
+margin: 0;
+padding: 0;
 }
 
 .leaflet-container {
   height: 100%;
   width: 100%;
 }
+
+.header {
+  color: #021E47;
+  background-color: #F8F9FA;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  position: fixed; /* Fixer le header en haut de l'écran */
+  top: 0; /* Positionner le header en haut */
+  z-index: 1000; /* Assurer que le header soit au-dessus de tout autre contenu */
+
+}
+
+.header-container {
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+
+.header-logo img {
+  width: 50px;
+}
+
+.header-title {
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+
+.header-reload {
+  padding: 5px 10px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #FFFFFF;
+  background-color: #85A30B;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.header-reload:hover {
+  opacity: 0.8;
+  background-color: #CAD430;
+}
+
 
 .country-info {
   position: absolute;
