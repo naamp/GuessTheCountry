@@ -3,33 +3,52 @@ import './Startpage.css';
 import { useNavigate } from "react-router-dom";
 import logo from './logo/GuessTheCountry.png';
 import Modal from 'react-modal';
+import countriesGeoJSON from './geodata/custom.geo';
 
-const Startpage = ({ selectedGameOption, setSelectedGameOption, numberOfCountries, setNumberOfCountries }) => {
+const Startpage = ({ selectedContinent, setSelectedContinent, numberOfCountries, setNumberOfCountries, setCountryList }) => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Liste der Dropdown-Optionen
   const dropdownOptions = [
-    { value: 'world', label: 'World' },
-    { value: 'america', label: 'America' },
-    { value: 'europe', label: 'Europe' },
-    { value: 'asia', label: 'Asia' },
-    { value: 'africa', label: 'Africa' },
-    { value: 'oceania', label: 'Oceania' }
+    { value: 'World', label: 'World' },
+    { value: 'North America', label: 'North America' },
+    { value: 'South America', label: 'South America' },
+    { value: 'Europe', label: 'Europe' },
+    { value: 'Asia', label: 'Asia' },
+    { value: 'Africa', label: 'Africa' },
+    { value: 'Oceania', label: 'Oceania' }
   ];
+
+  function filterGeoJsonByContinent(geoJson, selectedContinent) {
+    const filteredCountries = geoJson.features.filter(feat => 
+      feat.properties.continent === selectedContinent || selectedContinent === 'World'
+    ).map(feat => feat.properties.name);
+
+    // Shuffle array and pick the first `numberOfCountries` elements
+    const shuffledCountries = filteredCountries.sort(() => 0.5 - Math.random());
+    const selectedCountries = shuffledCountries.slice(0, numberOfCountries);
+    return selectedCountries;
+  }
 
   const numberOptions = [10, 15, 20, 25];
 
   const handleSelectChange = (event) => {
-    setSelectedGameOption(event.target.value);
+    setSelectedContinent(event.target.value);
   };
 
   const handleNumberChange = (event) => {
-    setNumberOfCountries(event.target.value);
+    setNumberOfCountries(parseInt(event.target.value, 10));
   };
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
+  };
+
+  const startGame = () => {
+    const countryList = filterGeoJsonByContinent(countriesGeoJSON, selectedContinent);
+    console.log("Selected Countries:", countryList); // Log the country list
+    setCountryList(countryList); // Set the list of country names
+    navigate('/mappage');
   };
 
   return (
@@ -67,7 +86,7 @@ const Startpage = ({ selectedGameOption, setSelectedGameOption, numberOfCountrie
           </select>
         </div>
         <div className="dropdown-container">
-          <select className="dropdown" value={selectedGameOption} onChange={handleSelectChange}>
+          <select className="dropdown" value={selectedContinent} onChange={handleSelectChange}>
             {dropdownOptions.map(option => (
               <option key={option.value} value={option.value}>
                 {option.label}
@@ -75,7 +94,7 @@ const Startpage = ({ selectedGameOption, setSelectedGameOption, numberOfCountrie
             ))}
           </select>
         </div>
-        <button className="start-button" onClick={() => navigate('/mappage')}>Start Game</button>
+        <button className="start-button" onClick={startGame}>Start Game</button>
       </div>
     </div>
   );

@@ -3,23 +3,28 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState } from 'react';
 import Startpage from './Startpage';
 import Mappage from './Mappage';
+import countriesGeoJSON from './geodata/custom.geo';
 
 function App() {
-  const [selectedGameOption, setSelectedGameOption] = useState('');
+  const [selectedContinent, setSelectedContinent] = useState('');
   const [numberOfCountries, setNumberOfCountries] = useState(10);
+  const [countryList, setCountryList] = useState([]);
 
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Startpage
-          selectedGameOption={selectedGameOption}
-          setSelectedGameOption={setSelectedGameOption}
+          selectedContinent={selectedContinent}
+          setSelectedContinent={setSelectedContinent}
           numberOfCountries={numberOfCountries}
           setNumberOfCountries={setNumberOfCountries}
+          setCountryList={setCountryList}
          />} />
         <Route path="/mappage" element={<Mappage
-          selectedGameOption={selectedGameOption}
+          selectedContinent={selectedContinent}
           numberOfCountries={numberOfCountries}
+          countryList={countryList}
+          countriesGeoJSON={countriesGeoJSON}
         />} />
       </Routes>
     </Router>
