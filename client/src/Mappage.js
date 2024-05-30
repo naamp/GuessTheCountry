@@ -5,21 +5,40 @@ import 'leaflet/dist/leaflet.css';
 import countriesGeoJSON from './geodata/custom.geo';
 import logo from './logo/GuessTheCountry.png';
 
+
 const Mappage = () => {
+
+  const continent = "Americas"
+
+  
+  function filterGeoJsonByContinent(geoJson, continent) {
+    const newFeatures = [];
+    for (let feat of geoJson.features) {
+      if (feat.properties.region_un === continent) {
+        newFeatures.push(feat);
+      }
+    }
+    return {
+      ...geoJson,
+      features: newFeatures,
+    };
+
+  }
+
+
+  /*function filterGeoJsonByContinent(geoJson, continent) {
+
+    return {
+      ...geoJson,
+      features: geoJson.features.filter(
+        feat => feat.properties.continent === continent
+      ),
+    };
+  }*/
+
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [highlightedCountry, setHighlightedCountry] = useState(null);
 
-  const africa = {
-    ...countriesGeoJSON,
-    features: [
-      countriesGeoJSON.features.filter(feat => {    
-        if (feat.properties.region_un === "Americas") {
-          return feat
-        }
-      })
-    ]
-  }
-  console.log(JSON.stringify(africa));
   const handleCountryClick = (event) => {
     const countryName = event.target.feature.properties.name;
     setSelectedCountry(countryName);
