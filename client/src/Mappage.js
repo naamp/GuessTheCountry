@@ -7,10 +7,33 @@ import logo from './logo/GuessTheCountry.png';
 const Mappage = ({ countryList, countriesGeoJSON }) => {
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [highlightedCountry, setHighlightedCountry] = useState(null);
+  const [highlightColor, setHighlightColor] = useState(null);
+  const [currentCountryList, setCurrentCountryList] = useState(countryList);
+
+  useEffect(() => {
+    setCurrentCountryList(countryList); // Set the initial country list
+  }, [countryList]);
 
   const handleCountryClick = (event) => {
     const countryName = event.target.feature.properties.name;
     setSelectedCountry(countryName);
+
+    if (currentCountryList.length > 0) {
+      const firstCountry = currentCountryList[0];
+      if (countryName === firstCountry) {
+        setHighlightColor('green');
+        // Remove the first country from the list
+        const updatedCountryList = currentCountryList.slice(1);
+        setCurrentCountryList(updatedCountryList);
+      } else {
+        setHighlightColor('orange');
+      }
+
+      // Reset highlight color after a short delay
+      setTimeout(() => {
+        setHighlightColor(null);
+      }, 1000);
+    }
   };
 
   const highlightFeature = (event) => {
@@ -19,25 +42,6 @@ const Mappage = ({ countryList, countriesGeoJSON }) => {
 
   const resetHighlight = () => {
     setHighlightedCountry(null);
-  };
-
-  const [elapsedTime, setElapsedTime] = useState(0);
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setElapsedTime(prevElapsedTime => prevElapsedTime + 1);
-    }, 1000);
-
-    // Cleanup function to stop the timer when the component unmounts
-    return () => clearInterval(intervalId);
-  }, []);
-
-  // Format the elapsed time as HH:MM
-  const formatTime = (seconds) => {
-    const hrs = Math.floor(seconds / 3600);
-    const mins = Math.floor((seconds % 3600) / 60);
-    const secs = seconds % 60;
-    return `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
   return (
@@ -50,7 +54,7 @@ const Mappage = ({ countryList, countriesGeoJSON }) => {
             </a>
           </div>
           <div className="header-title">
-            Country
+            {currentCountryList.length > 0 ? currentCountryList[0] : "No more countries"}
           </div>
           <button className="header-reload">
             &#x21bb;
@@ -79,13 +83,7 @@ const Mappage = ({ countryList, countriesGeoJSON }) => {
               mouseout: resetHighlight
             });
           }}
-          style={(feature) => ({
-            fillColor: highlightedCountry === feature.properties.name ? "#F75F27" : "#343A40",
-            fillOpacity: 0.5,
-            weight: 0.7,
-            opacity: 1,
-            color: highlightedCountry === feature.properties.name ? "#FF5733" : "#000000"
-          })}
+          style={getStyle}
         />
       </MapContainer>
       {selectedCountry && (
