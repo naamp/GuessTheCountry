@@ -3,8 +3,39 @@ import './Mappage.css';
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import countriesGeoJSON from './geodata/custom.geo';
+import logo from './logo/GuessTheCountry.png';
+
 
 const Mappage = () => {
+
+  const continent = "Americas"
+
+  
+  function filterGeoJsonByContinent(geoJson, continent) {
+    const newFeatures = [];
+    for (let feat of geoJson.features) {
+      if (feat.properties.region_un === continent) {
+        newFeatures.push(feat);
+      }
+    }
+    return {
+      ...geoJson,
+      features: newFeatures,
+    };
+
+  }
+
+
+  /*function filterGeoJsonByContinent(geoJson, continent) {
+
+    return {
+      ...geoJson,
+      features: geoJson.features.filter(
+        feat => feat.properties.continent === continent
+      ),
+    };
+  }*/
+
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [highlightedCountry, setHighlightedCountry] = useState(null);
 
@@ -23,6 +54,23 @@ const Mappage = () => {
 
   return (
     <div className="App">
+
+    <header className="header">
+    <div className="header-container">
+      <div className="header-logo">
+      <a href="/">
+        <img src={logo} alt="Guess the Country Logo" className="logo" />
+      </a>
+      </div>
+      <div className="header-title">
+        Country
+      </div>
+      <button className="header-reload" >
+        &#x21bb; 
+      </button>
+      </div>
+      </header>
+
       <MapContainer
         center={[46, 7]}
         zoom={3}
