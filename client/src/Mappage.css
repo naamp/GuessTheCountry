@@ -23,9 +23,10 @@ padding: 0;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  position: fixed; /* Fixer le header en haut de l'écran */
-  top: 0; /* Positionner le header en haut */
-  z-index: 1000; /* Assurer que le header soit au-dessus de tout autre contenu */
+  position: fixed; /* Fix the header at the top of the screen */
+  top: 0; /* Position the header at the top */
+  z-index: 1000; /* Ensure the header is above other content */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Add shadow to the header */
 
 }
 
