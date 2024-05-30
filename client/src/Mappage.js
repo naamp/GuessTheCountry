@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Mappage.css';
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -19,6 +19,25 @@ const Mappage = ({ countryList, countriesGeoJSON }) => {
 
   const resetHighlight = () => {
     setHighlightedCountry(null);
+  };
+
+  const [elapsedTime, setElapsedTime] = useState(0);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setElapsedTime(prevElapsedTime => prevElapsedTime + 1);
+    }, 1000);
+
+    // Cleanup function to stop the timer when the component unmounts
+    return () => clearInterval(intervalId);
+  }, []);
+
+  // Format the elapsed time as HH:MM
+  const formatTime = (seconds) => {
+    const hrs = Math.floor(seconds / 3600);
+    const mins = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+    return `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
   return (
@@ -74,6 +93,16 @@ const Mappage = ({ countryList, countriesGeoJSON }) => {
           <p>{selectedCountry}</p>
         </div>
       )}
+
+      
+      <div className="score-box">
+        <div className="time-score">
+          <div className="time">Time: {formatTime(elapsedTime)}</div>
+          <div className="score">Score: XX</div> {/* Replace XX with actual score */}
+        </div>
+      </div>
+
+
     </div>
   );
 };
