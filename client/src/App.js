@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState } from 'react';
 import Startpage from './Startpage';
 import Mappage from './Mappage';
+import Scorepage from './Scorepage';
 
 function App() {
   const [selectedGameOption, setSelectedGameOption] = useState('');
@@ -21,6 +22,7 @@ function App() {
           selectedGameOption={selectedGameOption}
           numberOfCountries={numberOfCountries}
         />} />
+      <Route path="/scorepage" element={<Scorepage/>}/>
       </Routes>
     </Router>
   );
