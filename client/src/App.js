@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Startpage from './Startpage';
 import Mappage from './Mappage';
 import countriesGeoJSON from './geodata/custom.geo';
+import Scorepage from './Scorepage';
 
 function App() {
   const [selectedContinent, setSelectedContinent] = useState('');
@@ -26,6 +27,7 @@ function App() {
           countryList={countryList}
           countriesGeoJSON={countriesGeoJSON}
         />} />
+      <Route path="/scorepage" element={<Scorepage/>}/>
       </Routes>
     </Router>
   );
