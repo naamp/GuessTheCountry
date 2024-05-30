@@ -8,6 +8,17 @@ const Mappage = () => {
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [highlightedCountry, setHighlightedCountry] = useState(null);
 
+  const africa = {
+    ...countriesGeoJSON,
+    features: [
+      countriesGeoJSON.features.filter(feat => {    
+        if (feat.properties.region_un === "Americas") {
+          return feat
+        }
+      })
+    ]
+  }
+  console.log(JSON.stringify(africa));
   const handleCountryClick = (event) => {
     const countryName = event.target.feature.properties.name;
     setSelectedCountry(countryName);
@@ -35,7 +46,7 @@ const Mappage = () => {
         />
         
         <GeoJSON
-          data={countriesGeoJSON}
+          data={africa}
           className="geojson"
           onEachFeature={(feature, layer) => {
             layer.on({
