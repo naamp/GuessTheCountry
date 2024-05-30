@@ -56,6 +56,7 @@ const Mappage = () => {
         center={[46, 7]}
         zoom={3}
         scrollWheelZoom={true}
+        zoomControl={false}
         style={{ height: "100vh" }}
       >
         <TileLayer
