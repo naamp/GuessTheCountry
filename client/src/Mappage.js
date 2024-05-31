@@ -30,7 +30,7 @@ const Mappage = ({ countryList, countriesGeoJSON, time, setTime, score, setScore
     setSelectedCountry(countryName);
   
     if (countryName === remainingCountryListRef.current[countryCountRef.current]) {
-      setHighlightColor('green');
+      setHighlightColor(CORRECT_COUNTRY_COLOR);
       countryCountRef.current += 1;
       setScore(prevScore => prevScore + 20); // Increase score by 20
   
@@ -39,7 +39,7 @@ const Mappage = ({ countryList, countriesGeoJSON, time, setTime, score, setScore
         navigate("/scorepage");
       }
     } else {
-      setHighlightColor('orange');
+      setHighlightColor(FALSE_COUNTRY_COLOR);
       setScore(prevScore => prevScore - 10);
     }
   
