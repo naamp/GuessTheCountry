@@ -10,10 +10,6 @@ const Mappage = ({ countryList, countriesGeoJSON }) => {
   const [highlightColor, setHighlightColor] = useState(null);
   const [currentCountryList, setCurrentCountryList] = useState(countryList);
 
-  useEffect(() => {
-    setCurrentCountryList(countryList); // Set the initial country list
-  }, [countryList]);
-
   const handleCountryClick = (event) => {
     const countryName = event.target.feature.properties.name;
     setSelectedCountry(countryName);
@@ -21,12 +17,15 @@ const Mappage = ({ countryList, countriesGeoJSON }) => {
     if (currentCountryList.length > 0) {
       const firstCountry = currentCountryList[0];
       if (countryName === firstCountry) {
-        setHighlightColor('green');
+        setHighlightColor('#85A30B');
         // Remove the first country from the list
         const updatedCountryList = currentCountryList.slice(1);
         setCurrentCountryList(updatedCountryList);
+        console.log("Richtiges Land, aktuelle Liste:", currentCountryList)
+        console.log("aktualisierte Liste", updatedCountryList)
       } else {
-        setHighlightColor('orange');
+        setHighlightColor('#F75F27');
+        console.log("Falsches Land, aktuelle Liste:", currentCountryList)
       }
 
       // Reset highlight color after a short delay
@@ -35,6 +34,10 @@ const Mappage = ({ countryList, countriesGeoJSON }) => {
       }, 1000);
     }
   };
+
+  useEffect(() => {
+    setCurrentCountryList(countryList); // Set the initial country list
+  }, [countryList]);
 
   const highlightFeature = (event) => {
     setHighlightedCountry(event.target.feature.properties.name);
