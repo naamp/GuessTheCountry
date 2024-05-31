@@ -14,7 +14,7 @@ const Startpage = ({ selectedContinent, setSelectedContinent, numberOfCountries,
   }, []);
 
   const dropdownOptions = [
-    { value: 'World', label: 'World' },
+    // { value: 'World', label: 'World' },
     { value: 'North America', label: 'North America' },
     { value: 'South America', label: 'South America' },
     { value: 'Europe', label: 'Europe' },
@@ -27,8 +27,13 @@ const Startpage = ({ selectedContinent, setSelectedContinent, numberOfCountries,
     let filteredCountries;
     if (selectedContinent === 'World') {
       // Wenn "World" ausgewählt ist, wähle alle Länder aus
-      filteredCountries = geoJson.features.map(feat => feat.properties.name);
-      console.log("Filtered Countries (World):", filteredCountries);
+      if (geoJson && geoJson.features) {
+        filteredCountries = geoJson.features.map(feat => feat.properties.name);
+        console.log("Filtered Countries (World):", filteredCountries);
+      } else {
+        console.error("GeoJSON features not found");
+        filteredCountries = [];
+      }
     } else {
       // Filtere die Länder nach dem ausgewählten Kontinent
       filteredCountries = geoJson.features.filter(feat =>
@@ -44,6 +49,7 @@ const Startpage = ({ selectedContinent, setSelectedContinent, numberOfCountries,
     // Shuffle array and pick the first `numberOfCountries` elements
     const shuffledCountries = filteredCountries.sort(() => 0.5 - Math.random());
     const selectedCountries = shuffledCountries.slice(0, numberOfCountries);
+    console.log("Selected Countries after shuffle:", selectedCountries); // Log the selected country list
     return selectedCountries;
   }
 

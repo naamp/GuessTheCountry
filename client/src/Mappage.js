@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Mappage.css';
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -7,10 +7,33 @@ import logo from './logo/GuessTheCountry.png';
 const Mappage = ({ countryList, countriesGeoJSON }) => {
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [highlightedCountry, setHighlightedCountry] = useState(null);
+  const [highlightColor, setHighlightColor] = useState(null);
+  const [currentCountryList, setCurrentCountryList] = useState(countryList);
+
+  useEffect(() => {
+    setCurrentCountryList(countryList); // Set the initial country list
+  }, [countryList]);
 
   const handleCountryClick = (event) => {
     const countryName = event.target.feature.properties.name;
     setSelectedCountry(countryName);
+
+    if (currentCountryList.length > 0) {
+      const firstCountry = currentCountryList[0];
+      if (countryName === firstCountry) {
+        setHighlightColor('green');
+        // Remove the first country from the list
+        const updatedCountryList = currentCountryList.slice(1);
+        setCurrentCountryList(updatedCountryList);
+      } else {
+        setHighlightColor('orange');
+      }
+
+      // Reset highlight color after a short delay
+      setTimeout(() => {
+        setHighlightColor(null);
+      }, 1000);
+    }
   };
 
   const highlightFeature = (event) => {
@@ -19,6 +42,26 @@ const Mappage = ({ countryList, countriesGeoJSON }) => {
 
   const resetHighlight = () => {
     setHighlightedCountry(null);
+  };
+
+  const getStyle = (feature) => {
+    if (feature.properties.name === selectedCountry) {
+      return {
+        fillColor: highlightColor,
+        fillOpacity: 0.8,
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3'
+      };
+    }
+    return {
+      fillColor: highlightedCountry === feature.properties.name ? '#F75F27' : '#343A40',
+      fillOpacity: 0.5,
+      weight: 0.7,
+      opacity: 1,
+      color: highlightedCountry === feature.properties.name ? '#FF5733' : '#000000'
+    };
   };
 
   return (
@@ -31,7 +74,7 @@ const Mappage = ({ countryList, countriesGeoJSON }) => {
             </a>
           </div>
           <div className="header-title">
-            Country
+            {currentCountryList.length > 0 ? currentCountryList[0] : "No more countries"}
           </div>
           <button className="header-reload">
             &#x21bb;
@@ -60,13 +103,7 @@ const Mappage = ({ countryList, countriesGeoJSON }) => {
               mouseout: resetHighlight
             });
           }}
-          style={(feature) => ({
-            fillColor: highlightedCountry === feature.properties.name ? "#F75F27" : "#343A40",
-            fillOpacity: 0.5,
-            weight: 0.7,
-            opacity: 1,
-            color: highlightedCountry === feature.properties.name ? "#FF5733" : "#000000"
-          })}
+          style={getStyle}
         />
       </MapContainer>
       {selectedCountry && (
