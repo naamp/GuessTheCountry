@@ -2,6 +2,7 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
+    overflow: hidden;
 }
 
 .App {
@@ -12,6 +13,7 @@ html, body {
     justify-content: center;
     align-items: center;
     background-color: #F8F9FA;
+
 }
 
 .logo-container {
@@ -156,6 +158,11 @@ html, body {
     padding: 10px;
     align-items: center;
     height: 20px;
+    border: solid;
+    border-color: #021E47;
+    border-width: 2px;
+    border-radius: 5px;
+
 }
 
 .player-name {
