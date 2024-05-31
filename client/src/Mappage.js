@@ -10,6 +10,10 @@ const Mappage = ({ countryList, countriesGeoJSON }) => {
   const [highlightColor, setHighlightColor] = useState(null);
   const [currentCountryList, setCurrentCountryList] = useState(countryList);
 
+  useEffect(() => {
+    setCurrentCountryList(countryList); // Set the initial country list
+  }, [countryList]);
+
   const handleCountryClick = (event) => {
     const countryName = event.target.feature.properties.name;
     setSelectedCountry(countryName);
@@ -17,15 +21,12 @@ const Mappage = ({ countryList, countriesGeoJSON }) => {
     if (currentCountryList.length > 0) {
       const firstCountry = currentCountryList[0];
       if (countryName === firstCountry) {
-        setHighlightColor('#85A30B');
+        setHighlightColor('green');
         // Remove the first country from the list
         const updatedCountryList = currentCountryList.slice(1);
         setCurrentCountryList(updatedCountryList);
-        console.log("Richtiges Land, aktuelle Liste:", currentCountryList)
-        console.log("aktualisierte Liste", updatedCountryList)
       } else {
-        setHighlightColor('#F75F27');
-        console.log("Falsches Land, aktuelle Liste:", currentCountryList)
+        setHighlightColor('orange');
       }
 
       // Reset highlight color after a short delay
@@ -35,16 +36,32 @@ const Mappage = ({ countryList, countriesGeoJSON }) => {
     }
   };
 
-  useEffect(() => {
-    setCurrentCountryList(countryList); // Set the initial country list
-  }, [countryList]);
-
   const highlightFeature = (event) => {
     setHighlightedCountry(event.target.feature.properties.name);
   };
 
   const resetHighlight = () => {
     setHighlightedCountry(null);
+  };
+
+  const getStyle = (feature) => {
+    if (feature.properties.name === selectedCountry) {
+      return {
+        fillColor: highlightColor,
+        fillOpacity: 0.8,
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3'
+      };
+    }
+    return {
+      fillColor: highlightedCountry === feature.properties.name ? '#F75F27' : '#343A40',
+      fillOpacity: 0.5,
+      weight: 0.7,
+      opacity: 1,
+      color: highlightedCountry === feature.properties.name ? '#FF5733' : '#000000'
+    };
   };
 
   return (
@@ -94,16 +111,6 @@ const Mappage = ({ countryList, countriesGeoJSON }) => {
           <p>{selectedCountry}</p>
         </div>
       )}
-
-      
-      <div className="score-box">
-        <div className="time-score">
-          <div className="time">Time: {formatTime(elapsedTime)}</div>
-          <div className="score">Score: XX</div> {/* Replace XX with actual score */}
-        </div>
-      </div>
-
-
     </div>
   );
 };
