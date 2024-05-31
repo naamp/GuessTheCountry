@@ -7,11 +7,43 @@ import Modal from 'react-modal';
 const Scorepage = ({ selectedGameOption, setSelectedGameOption, numberOfCountries, setNumberOfCountries }) => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const SAVE_FUNCTION_NOCH_NICHT_DEF = ""
+
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
+
+  const Name = "Michi";
+  const Score = 69;
+  const Time = "1:30";
+
+
+
+  const saveScore = async () => {
+    const textData = `Name: ${Name}\nScore: ${Score}\nTime: ${Time}`;
+  
+    try {
+      const fileHandle = await window.showSaveFilePicker({
+        suggestedName: 'score.txt',
+        types: [{
+          description: 'Text Files',
+          accept: {'text/plain': ['.txt']}
+        }]
+      });
+  
+      const writableStream = await fileHandle.createWritable();
+  
+      await writableStream.write(textData);
+  
+      await writableStream.close();
+  
+      alert('Score saved successfully');
+    } catch (error) {
+      console.error('Error saving score:', error);
+      alert('Failed to save score');
+    }
+  };
+
 
   return (
     <div className="App">
