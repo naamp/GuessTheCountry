@@ -1,13 +1,34 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './Mappage.css';
-import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
+import { MapContainer, TileLayer, GeoJSON, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import logo from './logo/GuessTheCountry.png';
 import { useNavigate } from "react-router-dom";
 
-const Mappage = ({ countryList, countriesGeoJSON, time, setTime, score, setScore }) => {
+const continentBounds = {
+  "World": [[-60, -180], [85, 180]],
+  "North America": [[7.2, -167.1], [83.2, -25]],
+  "South America": [[-56.1, -92.5], [13.4, -28.6]],
+  "Europe": [[35.5, -31.3], [71.6, 54.3]],
+  "Asia": [[1.1, 26.4], [77.8, 183.3]],
+  "Africa": [[-35.3, -17.5], [37.2, 51.3]],
+  "Oceania": [[-47.0, 110.0], [-10.0, 180.0]] // Adjusted bounds for Oceania
+};
 
 
+const SetViewOnContinentChange = ({ bounds }) => {
+  const map = useMap();
+
+  useEffect(() => {
+    if (bounds) {
+      map.fitBounds(bounds);
+    }
+  }, [bounds, map]);
+
+  return null;
+};
+
+const Mappage = ({ countryList, countriesGeoJSON, time, setTime, score, setScore, selectedContinent }) => {
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [highlightedCountry, setHighlightedCountry] = useState(null);
   const [highlightColor, setHighlightColor] = useState(null);
@@ -15,10 +36,8 @@ const Mappage = ({ countryList, countriesGeoJSON, time, setTime, score, setScore
   const countryCountRef = useRef(0);
   const navigate = useNavigate();
 
-
   const CORRECT_COUNTRY_COLOR = '#85A30B'
   const FALSE_COUNTRY_COLOR = '#ff0000'
-  
 
   useEffect(() => {
     remainingCountryListRef.current = countryList;
@@ -35,7 +54,6 @@ const Mappage = ({ countryList, countriesGeoJSON, time, setTime, score, setScore
       setScore(prevScore => prevScore + 20); // Increase score by 20
   
       if (countryCountRef.current === remainingCountryListRef.current.length) {
-
         navigate("/scorepage");
       }
     } else {
@@ -71,7 +89,6 @@ const Mappage = ({ countryList, countriesGeoJSON, time, setTime, score, setScore
     };
   };
 
-
   useEffect(() => {
     const timerInterval = setInterval(() => {
       setTime(prevTime => prevTime + 1);
@@ -86,6 +103,7 @@ const Mappage = ({ countryList, countriesGeoJSON, time, setTime, score, setScore
     localStorage.setItem('timer', JSON.stringify(time));
   }, [time]);
 
+  const bounds = continentBounds[selectedContinent];
 
   return (
     <div className="App">
@@ -130,6 +148,7 @@ const Mappage = ({ countryList, countriesGeoJSON, time, setTime, score, setScore
           }}
           style={getStyle}
         />
+        <SetViewOnContinentChange bounds={bounds} />
       </MapContainer>
       {selectedCountry && (
         <div className="country-info">
