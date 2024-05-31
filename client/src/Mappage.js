@@ -101,7 +101,7 @@ const Mappage = ({ countryList, countriesGeoJSON, time, setTime, score, setScore
               ? remainingCountryListRef.current[countryCountRef.current]
               : "No more countries"}
           </div>
-          <button className="header-reload" onClick={() => window.location.reload()}>
+          <button className="header-reload" onClick={() =>navigate("/")}>
             &#x21bb;
           </button>
         </div>
