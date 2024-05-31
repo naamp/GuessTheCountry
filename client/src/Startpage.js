@@ -5,7 +5,7 @@ import logo from './logo/GuessTheCountry.png';
 import Modal from 'react-modal';
 import countriesGeoJSON from './geodata/custom.geo';
 
-const Startpage = ({ selectedContinent, setSelectedContinent, numberOfCountries, setNumberOfCountries, setCountryList }) => {
+const Startpage = ({ selectedContinent, setSelectedContinent, numberOfCountries, setNumberOfCountries, setCountryList, time, setTime, score, setScore  }) => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -80,6 +80,8 @@ const Startpage = ({ selectedContinent, setSelectedContinent, numberOfCountries,
   };
 
   const startGame = () => {
+      setScore(prevScore => 0);
+      setTime(prevTime => 0);
       const countryList = filterGeoJsonByContinent(countriesGeoJSON, selectedContinent);
       console.log("Selected Countries:", countryList); // Log the country list
       setCountryList(countryList); // Set the list of country names

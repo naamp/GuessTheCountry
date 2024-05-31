@@ -18,6 +18,10 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Startpage
+          time = {time}
+          setTime = {setTime}
+          score = {score}
+          setScore = {setScore}
           selectedContinent={selectedContinent}
           setSelectedContinent={setSelectedContinent}
           numberOfCountries={numberOfCountries}

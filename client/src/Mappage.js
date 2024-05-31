@@ -17,7 +17,7 @@ const Mappage = ({ countryList, countriesGeoJSON, time, setTime, score, setScore
 
 
   const CORRECT_COUNTRY_COLOR = '#85A30B'
-  const FALSE_COUNTRY_COLOR = '#F75F27'
+  const FALSE_COUNTRY_COLOR = '#ff0000'
   
 
   useEffect(() => {
@@ -42,10 +42,6 @@ const Mappage = ({ countryList, countriesGeoJSON, time, setTime, score, setScore
       setHighlightColor(FALSE_COUNTRY_COLOR);
       setScore(prevScore => prevScore - 10);
     }
-  
-    setTimeout(() => {
-      setHighlightColor(null);
-    }, 1000);
   };
 
   const highlightFeature = (event) => {
@@ -63,8 +59,7 @@ const Mappage = ({ countryList, countriesGeoJSON, time, setTime, score, setScore
         fillOpacity: 0.8,
         weight: 2,
         opacity: 1,
-        color: 'white',
-        dashArray: '3'
+        color: 'black',
       };
     }
     return {
@@ -143,8 +138,8 @@ const Mappage = ({ countryList, countriesGeoJSON, time, setTime, score, setScore
       )}
 
       {/* Score and time section */}
-      <div className="score-time">
-        <p>Time: {time}</p>
+      <div className="score-box">
+        <p>Time: {time} sec</p>
         {/* Render the score received from props or state */}
         <p>Score: {score}</p>
       </div>
