@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './Mappage.css';
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -8,32 +8,28 @@ const Mappage = ({ countryList, countriesGeoJSON }) => {
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [highlightedCountry, setHighlightedCountry] = useState(null);
   const [highlightColor, setHighlightColor] = useState(null);
-  const [currentCountryList, setCurrentCountryList] = useState(countryList);
+  const remainingCountryListRef = useRef(countryList);
+  const countryCountRef = useRef(0);
 
   useEffect(() => {
-    setCurrentCountryList(countryList); // Set the initial country list
+    remainingCountryListRef.current = countryList;
+    countryCountRef.current = 0;
   }, [countryList]);
 
   const handleCountryClick = (event) => {
     const countryName = event.target.feature.properties.name;
     setSelectedCountry(countryName);
 
-    if (currentCountryList.length > 0) {
-      const firstCountry = currentCountryList[0];
-      if (countryName === firstCountry) {
-        setHighlightColor('green');
-        // Remove the first country from the list
-        const updatedCountryList = currentCountryList.slice(1);
-        setCurrentCountryList(updatedCountryList);
-      } else {
-        setHighlightColor('orange');
-      }
-
-      // Reset highlight color after a short delay
-      setTimeout(() => {
-        setHighlightColor(null);
-      }, 1000);
+    if (countryName === remainingCountryListRef.current[countryCountRef.current]) {
+      setHighlightColor('green');
+      countryCountRef.current += 1;
+    } else {
+      setHighlightColor('orange');
     }
+
+    setTimeout(() => {
+      setHighlightColor(null);
+    }, 1000);
   };
 
   const highlightFeature = (event) => {
@@ -74,9 +70,11 @@ const Mappage = ({ countryList, countriesGeoJSON }) => {
             </a>
           </div>
           <div className="header-title">
-            {currentCountryList.length > 0 ? currentCountryList[0] : "No more countries"}
+            {remainingCountryListRef.current.length > countryCountRef.current
+              ? remainingCountryListRef.current[countryCountRef.current]
+              : "No more countries"}
           </div>
-          <button className="header-reload">
+          <button className="header-reload" onClick={() => window.location.reload()}>
             &#x21bb;
           </button>
         </div>
