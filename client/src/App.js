@@ -5,6 +5,7 @@ import Startpage from './Startpage';
 import Mappage from './Mappage';
 import countriesGeoJSON from './geodata/custom.geo';
 import Scorepage from './Scorepage';
+import { ErrorPage } from './Errorpage';
 
 function App() {
   const [selectedContinent, setSelectedContinent] = useState('');
@@ -28,6 +29,7 @@ function App() {
           countriesGeoJSON={countriesGeoJSON}
         />} />
       <Route path="/scorepage" element={<Scorepage/>}/>
+      <Route path="/*" element={<ErrorPage/>}/>
       </Routes>
     </Router>
   );
