@@ -13,14 +13,14 @@ const Scorepage = ({ selectedGameOption, setSelectedGameOption, numberOfCountrie
     setIsModalOpen(!isModalOpen);
   };
 
-  const Name = "Michi";
   const Score = 69;
   const Time = "1:30";
 
 
 
   const saveScore = async () => {
-    const textData = `Name: ${Name}\nScore: ${Score}\nTime: ${Time}`;
+    const playerName = document.querySelector('.player-name').value;
+    const textData = `Name: ${playerName}\nScore: ${Score}\nTime: ${Time}`;
   
     try {
       const fileHandle = await window.showSaveFilePicker({
@@ -77,7 +77,7 @@ const Scorepage = ({ selectedGameOption, setSelectedGameOption, numberOfCountrie
         </div>
       </div>
       <div className="button-container">
-        <button className="start-button" onClick={() => saveScore}>Save Score</button>
+        <button className="start-button" onClick={saveScore}>Save Score</button>
         <button className="start-button" onClick={() => navigate('/')}>Back to home</button>
       </div>
     </div>

@@ -13,8 +13,12 @@ const Startpage = ({ selectedContinent, setSelectedContinent, numberOfCountries,
     console.log("GeoJSON Data:", countriesGeoJSON); // Log the entire GeoJSON data
   }, []);
 
+  useEffect(() => {
+    setSelectedContinent('World');
+  }, []);
+
   const dropdownOptions = [
-    // { value: 'World', label: 'World' },
+    { value: 'World', label: 'World' },
     { value: 'North America', label: 'North America' },
     { value: 'South America', label: 'South America' },
     { value: 'Europe', label: 'Europe' },
@@ -24,6 +28,7 @@ const Startpage = ({ selectedContinent, setSelectedContinent, numberOfCountries,
   ];
 
   function filterGeoJsonByContinent(geoJson, selectedContinent) {
+    const continents = ['North America', 'South America', 'Europe', 'Asia', 'Africa'];
     let filteredCountries;
     if (selectedContinent === 'World') {
       // Wenn "World" ausgewählt ist, wähle alle Länder aus
@@ -44,18 +49,25 @@ const Startpage = ({ selectedContinent, setSelectedContinent, numberOfCountries,
 
     if (filteredCountries.length === 0) {
       console.error("No countries found for the selected continent or world");
+      return [];
     }
 
-    // Shuffle array and pick the first `numberOfCountries` elements
-    const shuffledCountries = filteredCountries.sort(() => 0.5 - Math.random());
-    const selectedCountries = shuffledCountries.slice(0, numberOfCountries);
-    console.log("Selected Countries after shuffle:", selectedCountries); // Log the selected country list
+    let selectedCountries;
+    if (filteredCountries.length <= numberOfCountries) {
+        selectedCountries = filteredCountries; // Take all countries if available countries are less than or equal to numberOfCountries
+    } else {
+        // Shuffle array and pick the first `numberOfCountries` elements
+        const shuffledCountries = filteredCountries.sort(() => 0.5 - Math.random());
+        selectedCountries = shuffledCountries.slice(0, numberOfCountries);
+    }
+    console.log("Selected Countries after shuffle:", selectedCountries);
     return selectedCountries;
-  }
+}
 
   const numberOptions = [10, 15, 20, 25];
 
   const handleSelectChange = (event) => {
+    console.log(event.target.value);
     setSelectedContinent(event.target.value);
   };
 
@@ -68,10 +80,10 @@ const Startpage = ({ selectedContinent, setSelectedContinent, numberOfCountries,
   };
 
   const startGame = () => {
-    const countryList = filterGeoJsonByContinent(countriesGeoJSON, selectedContinent);
-    console.log("Selected Countries:", countryList); // Log the country list
-    setCountryList(countryList); // Set the list of country names
-    navigate('/mappage');
+      const countryList = filterGeoJsonByContinent(countriesGeoJSON, selectedContinent);
+      console.log("Selected Countries:", countryList); // Log the country list
+      setCountryList(countryList); // Set the list of country names
+      navigate('/mappage')
   };
 
   return (
