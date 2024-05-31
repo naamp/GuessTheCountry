@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import './Mappage.css';
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import logo from './logo/GuessTheCountry.png';
+import logo from './logo/GuessTheCountry_nur_text.png';
 import { useNavigate } from "react-router-dom";
 
 const Mappage = ({ countryList, countriesGeoJSON, time, setTime, score, setScore }) => {
