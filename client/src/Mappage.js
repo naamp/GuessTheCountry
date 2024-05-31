@@ -3,6 +3,7 @@ import './Mappage.css';
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import logo from './logo/GuessTheCountry.png';
+import { useNavigate } from "react-router-dom";
 
 const Mappage = ({ countryList, countriesGeoJSON }) => {
 
@@ -11,9 +12,11 @@ const Mappage = ({ countryList, countriesGeoJSON }) => {
   const [highlightColor, setHighlightColor] = useState(null);
   const remainingCountryListRef = useRef(countryList);
   const countryCountRef = useRef(0);
+  const navigate = useNavigate();
 
   const CORRECT_COUNTRY_COLOR = '#85A30B'
   const FALSE_COUNTRY_COLOR = '#F75F27'
+  
 
   useEffect(() => {
     remainingCountryListRef.current = countryList;
@@ -27,13 +30,12 @@ const Mappage = ({ countryList, countriesGeoJSON }) => {
     if (countryName === remainingCountryListRef.current[countryCountRef.current]) {
       setHighlightColor(CORRECT_COUNTRY_COLOR);
       countryCountRef.current += 1;
+        if (countryCountRef.current === remainingCountryListRef.current.length) {
+          navigate("/scorepage");}
     } else {
       setHighlightColor(FALSE_COUNTRY_COLOR);
     }
 
-    setTimeout(() => {
-      setHighlightColor(null);
-    }, 1000);
   };
 
   const highlightFeature = (event) => {
