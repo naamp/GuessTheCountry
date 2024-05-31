@@ -47,26 +47,6 @@ const Mappage = ({ countryList, countriesGeoJSON }) => {
     setHighlightedCountry(null);
   };
 
-  const getStyle = (feature) => {
-    if (feature.properties.name === selectedCountry) {
-      return {
-        fillColor: highlightColor,
-        fillOpacity: 0.8,
-        weight: 2,
-        opacity: 1,
-        color: 'white',
-        dashArray: '3'
-      };
-    }
-    return {
-      fillColor: highlightedCountry === feature.properties.name ? '#F75F27' : '#343A40',
-      fillOpacity: 0.5,
-      weight: 0.7,
-      opacity: 1,
-      color: highlightedCountry === feature.properties.name ? '#FF5733' : '#000000'
-    };
-  };
-
   return (
     <div className="App">
       <header className="header">
@@ -114,6 +94,16 @@ const Mappage = ({ countryList, countriesGeoJSON }) => {
           <p>{selectedCountry}</p>
         </div>
       )}
+
+      
+      <div className="score-box">
+        <div className="time-score">
+          <div className="time">Time: {formatTime(elapsedTime)}</div>
+          <div className="score">Score: XX</div> {/* Replace XX with actual score */}
+        </div>
+      </div>
+
+
     </div>
   );
 };
