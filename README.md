@@ -2,7 +2,7 @@
 A Game for guessing the country on a world map.
 
 ## Play the Game
-Play herer: https://geogame-guessthecountry.vercel.app/
+Play here: https://geogame-guessthecountry.vercel.app/
 
 ## Game instructions
 At the Startpage you have to choose the game Settings. You can play with 10 to 25 countries per continent.
