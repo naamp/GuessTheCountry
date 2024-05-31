@@ -33,8 +33,7 @@ padding: 0;
 .header-container {
   display: flex;
   flex-direction: row;
-  padding-right: 10px;
-  padding-left: 10px;
+  padding: 10px;
   justify-content: space-between;
   align-items: center;
   width: 100%;
@@ -42,8 +41,8 @@ padding: 0;
 
 
 .header-logo img {
-  width: 50px;
-  left: 10px;
+  width: 60px;
+  /* left: 10px; */
 }
 
 .header-title {
