@@ -6,6 +6,7 @@ import Mappage from './Mappage';
 import countriesGeoJSON from './geodata/custom.geo';
 import Scorepage from './Scorepage';
 import { ErrorPage } from './Errorpage';
+import { InfoPopUp } from './info-popup';
 
 function App() {
   const [selectedContinent, setSelectedContinent] = useState('');
@@ -27,6 +28,7 @@ function App() {
           numberOfCountries={numberOfCountries}
           setNumberOfCountries={setNumberOfCountries}
           setCountryList={setCountryList}
+          InfoPopUp = {InfoPopUp}
          />} />
         <Route path="/mappage" element={<Mappage
           time = {time}
@@ -41,8 +43,11 @@ function App() {
       <Route path="/scorepage" element={<Scorepage
           time = {time}
           score = {score}
+          InfoPopUp = {InfoPopUp}
       />}/>
-      <Route path="/*" element={<ErrorPage/>}/>
+      <Route path="/*" element={<ErrorPage/>}
+      InfoPopUp = {InfoPopUp}
+      />
       </Routes>
     </Router>
   );
