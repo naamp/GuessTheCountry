@@ -7,7 +7,7 @@ import Modal from 'react-modal';
 const Scorepage = ({ selectedGameOption, setSelectedGameOption, numberOfCountries, setNumberOfCountries }) => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const SAVE_FUNCTION_NOCH_NICHT_DEF = ""
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -36,9 +36,14 @@ const Scorepage = ({ selectedGameOption, setSelectedGameOption, numberOfCountrie
       <div className="logo-container">
         <img src={logo} alt="Guess the Country Logo" className="logo" />
       </div>
+      <input className='player-name' placeholder="player name"></input>
       <h2 className="ueberschrift">Your score is:</h2>
+      <div className='results-container'>
+        <h3 className='results'>Time: 00:09</h3>
+        <h3 className='results'>Points: 50%</h3>
+      </div>
       <div className="button-container">
-        <button className="start-button" onClick={() => navigate('/mappage')}>Start Game</button>
+        <button className="start-button" onClick={() => saveScore}>Save Score</button>
         <button className="start-button" onClick={() => navigate('/')}>Back to home</button>
       </div>
     </div>
