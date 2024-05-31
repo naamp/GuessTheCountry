@@ -17,7 +17,7 @@ html, body {
 }
 
 .logo-container {
-    margin-bottom: 20px;
+    margin-bottom: 0px;
 }
 
 .logo {
@@ -153,28 +153,45 @@ html, body {
 
 .results-container {
     display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    align-items: center;
+    border: solid;
+    border-color: #FFECB3;
+    background-color: rgba(255,236,179,1);
+    border-width: 2px;
+    border-radius: 10px;
+    margin-bottom: 40px;
+    margin-top: -40px;
+
+}
+.results-align {
+    display: flex;
     flex-direction: row;
     gap: 20px;
     padding: 10px;
     align-items: center;
     height: 20px;
-    border: solid;
-    border-color: #021E47;
-    border-width: 2px;
-    border-radius: 5px;
-
 }
 
 .player-name {
     margin-bottom: 20px;
     color: #FFFFFF;
-    background-color: #85A30B;
+    background-color: #0389CA;
     border: none;
     border-radius: 5px;
     font-size: 20px;
     font-weight: bold;
     padding: 10px 20px;
 }
+
+.player-name:hover {
+    opacity: 0.8;
+    background-color: #5BC0DE;
+    cursor: pointer;
+}
+
 .results {
     margin-bottom: 20px;
     color: #FFFFFF;
