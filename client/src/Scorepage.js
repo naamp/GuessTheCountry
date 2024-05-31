@@ -18,7 +18,7 @@ const Scorepage = ({ selectedGameOption, setSelectedGameOption, numberOfCountrie
 
   const saveScore = async () => {
     const playerName = document.querySelector('.player-name').value;
-    const textData = `Name: ${playerName}\nScore: ${score}\nTime: ${time}`;
+    const textData = `Name: ${playerName}\nScore: ${score} Punkte\nTime: ${time} Sekunden`;
   
     try {
       const fileHandle = await window.showSaveFilePicker({
@@ -72,7 +72,7 @@ const Scorepage = ({ selectedGameOption, setSelectedGameOption, numberOfCountrie
         <h2 className="ueberschrift">Your score is:</h2>
         <input className='player-name' placeholder="player name"></input>
         <div className='results-align'>
-          <h3 className='results'>Time: {time}</h3>
+          <h3 className='results'>Time: {time} sec</h3>
           <h3 className='results'>Points: {score}</h3>
         </div>
       </div>
