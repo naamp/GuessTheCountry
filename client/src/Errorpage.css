@@ -86,68 +86,8 @@ html, body {
     cursor: pointer;
 }
 
-.info-button {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    padding: 5px 10px;
-    font-size: 12px;
-    font-weight: bold;
-    color: #FFFFFF;
-    background-color: #85A30B;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-}
-
-.info-button:hover {
-    opacity: 0.8;
-    background-color: #CAD430;
-}
-
-.close-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    padding: 5px 10px;
-    font-size: 12px;
-    font-weight: bold;
-    color: #FFFFFF;
-    background-color: #9d3636;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-}
-
-.close-button:hover {
-    opacity: 0.8;
-    background-color: #d44848;
-}
-
 .ueberschrift {
     margin-bottom: 20px;
     color: #021E47;
 
-}
-
-.modal {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 800px;
-    background: #F8F9FA;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    text-align: justify;
-}
-
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0,0,0,0.5);
 }

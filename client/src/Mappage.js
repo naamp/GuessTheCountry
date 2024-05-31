@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import './Mappage.css';
 import { MapContainer, TileLayer, GeoJSON, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import logo from './logo/GuessTheCountry.png';
+import logo from './logo/GuessTheCountry_nur_text.png';
 import { useNavigate } from "react-router-dom";
 
 const continentBounds = {
@@ -119,7 +119,7 @@ const Mappage = ({ countryList, countriesGeoJSON, time, setTime, score, setScore
               ? remainingCountryListRef.current[countryCountRef.current]
               : "No more countries"}
           </div>
-          <button className="header-reload" onClick={() => window.location.reload()}>
+          <button className="header-reload" onClick={() =>navigate("/")}>
             &#x21bb;
           </button>
         </div>
