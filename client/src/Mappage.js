@@ -5,11 +5,15 @@ import 'leaflet/dist/leaflet.css';
 import logo from './logo/GuessTheCountry.png';
 
 const Mappage = ({ countryList, countriesGeoJSON }) => {
+
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [highlightedCountry, setHighlightedCountry] = useState(null);
   const [highlightColor, setHighlightColor] = useState(null);
   const remainingCountryListRef = useRef(countryList);
   const countryCountRef = useRef(0);
+
+  const CORRECT_COUNTRY_COLOR = '#85A30B'
+  const FALSE_COUNTRY_COLOR = '#F75F27'
 
   useEffect(() => {
     remainingCountryListRef.current = countryList;
@@ -21,10 +25,10 @@ const Mappage = ({ countryList, countriesGeoJSON }) => {
     setSelectedCountry(countryName);
 
     if (countryName === remainingCountryListRef.current[countryCountRef.current]) {
-      setHighlightColor('green');
+      setHighlightColor(CORRECT_COUNTRY_COLOR);
       countryCountRef.current += 1;
     } else {
-      setHighlightColor('orange');
+      setHighlightColor(FALSE_COUNTRY_COLOR);
     }
 
     setTimeout(() => {
