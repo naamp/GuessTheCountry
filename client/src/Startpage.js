@@ -44,14 +44,22 @@ const Startpage = ({ selectedContinent, setSelectedContinent, numberOfCountries,
 
     if (filteredCountries.length === 0) {
       console.error("No countries found for the selected continent or world");
+      return [];
     }
 
-    // Shuffle array and pick the first `numberOfCountries` elements
-    const shuffledCountries = filteredCountries.sort(() => 0.5 - Math.random());
-    const selectedCountries = shuffledCountries.slice(0, numberOfCountries);
-    console.log("Selected Countries after shuffle:", selectedCountries); // Log the selected country list
+    let selectedCountries;
+    if (filteredCountries.length <= numberOfCountries) {
+        selectedCountries = filteredCountries; // Take all countries if available countries are less than or equal to numberOfCountries
+    } else {
+        // Shuffle array and pick the first `numberOfCountries` elements
+        const shuffledCountries = filteredCountries.sort(() => 0.5 - Math.random());
+        selectedCountries = shuffledCountries.slice(0, numberOfCountries);
+    }
+    console.log("Selected Countries after shuffle:", selectedCountries);
     return selectedCountries;
-  }
+}
+
+   
 
   const numberOptions = [10, 15, 20, 25];
 

@@ -13,6 +13,38 @@ const Scorepage = ({ selectedGameOption, setSelectedGameOption, numberOfCountrie
     setIsModalOpen(!isModalOpen);
   };
 
+  const Score = 69;
+  const Time = "1:30";
+
+
+
+  const saveScore = async () => {
+    const playerName = document.querySelector('.player-name').value;
+    const textData = `Name: ${playerName}\nScore: ${Score}\nTime: ${Time}`;
+  
+    try {
+      const fileHandle = await window.showSaveFilePicker({
+        suggestedName: 'score.txt',
+        types: [{
+          description: 'Text Files',
+          accept: {'text/plain': ['.txt']}
+        }]
+      });
+  
+      const writableStream = await fileHandle.createWritable();
+  
+      await writableStream.write(textData);
+  
+      await writableStream.close();
+  
+      alert('Score saved successfully');
+    } catch (error) {
+      console.error('Error saving score:', error);
+      alert('Failed to save score');
+    }
+  };
+
+
   return (
     <div className="App">
       <button className="info-button" onClick={toggleModal}>Info</button>
@@ -36,9 +68,14 @@ const Scorepage = ({ selectedGameOption, setSelectedGameOption, numberOfCountrie
       <div className="logo-container">
         <img src={logo} alt="Guess the Country Logo" className="logo" />
       </div>
+      <input className='player-name' placeholder="player name"></input>
       <h2 className="ueberschrift">Your score is:</h2>
+      <div className='results-container'>
+        <h3 className='results'>Time: 00:09</h3>
+        <h3 className='results'>Points: 50%</h3>
+      </div>
       <div className="button-container">
-        <button className="start-button" onClick={() => navigate('/mappage')}>Start Game</button>
+        <button className="start-button" onClick={saveScore}>Save Score</button>
         <button className="start-button" onClick={() => navigate('/')}>Back to home</button>
       </div>
     </div>
