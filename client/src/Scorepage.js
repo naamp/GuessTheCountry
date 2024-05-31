@@ -3,8 +3,11 @@ import './Scorepage.css';
 import { useNavigate } from "react-router-dom";
 import logo from './logo/GuessTheCountry.png';
 import Modal from 'react-modal';
+import { useLocation } from "react-router-dom";
 
-const Scorepage = ({ selectedGameOption, setSelectedGameOption, numberOfCountries, setNumberOfCountries }) => {
+const Scorepage = ({ selectedGameOption, setSelectedGameOption, numberOfCountries, setNumberOfCountries, time, score}) => {
+
+
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -13,14 +16,9 @@ const Scorepage = ({ selectedGameOption, setSelectedGameOption, numberOfCountrie
     setIsModalOpen(!isModalOpen);
   };
 
-  const Score = 69;
-  const Time = "1:30";
-
-
-
   const saveScore = async () => {
     const playerName = document.querySelector('.player-name').value;
-    const textData = `Name: ${playerName}\nScore: ${Score}\nTime: ${Time}`;
+    const textData = `Name: ${playerName}\nScore: ${score}\nTime: ${time}`;
   
     try {
       const fileHandle = await window.showSaveFilePicker({
@@ -72,8 +70,8 @@ const Scorepage = ({ selectedGameOption, setSelectedGameOption, numberOfCountrie
         <h2 className="ueberschrift">Your score is:</h2>
         <input className='player-name' placeholder="player name"></input>
         <div className='results-align'>
-          <h3 className='results'>Time: 00:09</h3>
-          <h3 className='results'>Points: 50%</h3>
+          <h3 className='results'>Time: {time}</h3>
+          <h3 className='results'>Points: {score}</h3>
         </div>
       </div>
       <div className="button-container">

@@ -5,7 +5,8 @@ import 'leaflet/dist/leaflet.css';
 import logo from './logo/GuessTheCountry.png';
 import { useNavigate } from "react-router-dom";
 
-const Mappage = ({ countryList, countriesGeoJSON }) => {
+const Mappage = ({ countryList, countriesGeoJSON, time, setTime, score, setScore }) => {
+
 
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [highlightedCountry, setHighlightedCountry] = useState(null);
@@ -13,6 +14,7 @@ const Mappage = ({ countryList, countriesGeoJSON }) => {
   const remainingCountryListRef = useRef(countryList);
   const countryCountRef = useRef(0);
   const navigate = useNavigate();
+
 
   const CORRECT_COUNTRY_COLOR = '#85A30B'
   const FALSE_COUNTRY_COLOR = '#F75F27'
@@ -26,16 +28,24 @@ const Mappage = ({ countryList, countriesGeoJSON }) => {
   const handleCountryClick = (event) => {
     const countryName = event.target.feature.properties.name;
     setSelectedCountry(countryName);
-
+  
     if (countryName === remainingCountryListRef.current[countryCountRef.current]) {
-      setHighlightColor(CORRECT_COUNTRY_COLOR);
+      setHighlightColor('green');
       countryCountRef.current += 1;
-        if (countryCountRef.current === remainingCountryListRef.current.length) {
-          navigate("/scorepage");}
-    } else {
-      setHighlightColor(FALSE_COUNTRY_COLOR);
-    }
+      setScore(prevScore => prevScore + 20); // Increase score by 20
+  
+      if (countryCountRef.current === remainingCountryListRef.current.length) {
 
+        navigate("/scorepage");
+      }
+    } else {
+      setHighlightColor('orange');
+      setScore(prevScore => prevScore - 10);
+    }
+  
+    setTimeout(() => {
+      setHighlightColor(null);
+    }, 1000);
   };
 
   const highlightFeature = (event) => {
@@ -65,6 +75,22 @@ const Mappage = ({ countryList, countriesGeoJSON }) => {
       color: highlightedCountry === feature.properties.name ? '#FF5733' : '#000000'
     };
   };
+
+
+  useEffect(() => {
+    const timerInterval = setInterval(() => {
+      setTime(prevTime => prevTime + 1);
+    }, 1000);
+  
+    // Clean up the timer when the component unmounts
+    return () => clearInterval(timerInterval);
+  }, []);
+  
+  // Store the timer value in localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('timer', JSON.stringify(time));
+  }, [time]);
+
 
   return (
     <div className="App">
@@ -115,6 +141,14 @@ const Mappage = ({ countryList, countriesGeoJSON }) => {
           <p>{selectedCountry}</p>
         </div>
       )}
+
+      {/* Score and time section */}
+      <div className="score-time">
+        <p>Time: {time}</p>
+        {/* Render the score received from props or state */}
+        <p>Score: {score}</p>
+      </div>
+
     </div>
   );
 };
