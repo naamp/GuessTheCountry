@@ -64,7 +64,7 @@ const Startpage = ({ selectedContinent, setSelectedContinent, numberOfCountries,
     return selectedCountries;
 }
 
-  const numberOptions = [2, 10, 15, 20, 25];
+  const numberOptions = [10, 15, 20, 25];
 
   const handleSelectChange = (event) => {
     console.log(event.target.value);
